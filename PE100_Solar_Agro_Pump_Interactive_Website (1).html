@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solar Agricultural Water Pumping System</title>
+  <style>
+    :root {
+      --primary: #15803d;
+      --primary-dark: #166534;
+      --primary-light: #dcfce7;
+      --agro-gold: #f59e0b;
+      --agro-earth: #451a03;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --header-bg: #064e3b;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    header {
+      background: var(--header-bg);
+      color: white;
+      border-bottom: 2px solid #047857;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .brand-icon {
+      background: #059669;
+      color: #fde047;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+    nav {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .nav-btn {
+      background: transparent;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #a7f3d0;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .nav-btn:hover {
+      color: white;
+      background: rgba(255,255,255,0.1);
+    }
+    .nav-btn.active {
+      color: #064e3b;
+      background: #fde047;
+      font-weight: 700;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 0 20px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    }
+    .hero-banner {
+      background: linear-gradient(135deg, #064e3b 0%, #0f172a 100%);
+      color: white;
+      border-radius: 12px;
+      padding: 28px;
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      border: 1px solid #047857;
+    }
+    .hero-banner h1 { font-size: 24px; margin-bottom: 8px; color: #fff; }
+    .hero-banner p { font-size: 14px; color: #a7f3d0; max-width: 650px; }
+    .hero-price {
+      background: rgba(0,0,0,0.3);
+      border: 1px solid #047857;
+      padding: 16px;
+      border-radius: 8px;
+      text-align: right;
+    }
+    .price-num { font-size: 28px; font-weight: 800; color: #fde047; font-family: monospace; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    
+    /* Phone frame for mobile app view */
+    .phone-container {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0;
+    }
+    .phone-frame {
+      width: 100%;
+      max-width: 330px;
+      background: #0f172a;
+      padding: 12px;
+      border-radius: 36px;
+      box-shadow: 0 20px 35px rgba(0,0,0,0.25);
+      border: 4px solid #334155;
+    }
+    .phone-notch {
+      width: 110px;
+      height: 14px;
+      background: #1e293b;
+      margin: 0 auto 8px auto;
+      border-radius: 10px;
+    }
+    .phone-screen {
+      background: #f8fafc;
+      border-radius: 26px;
+      overflow: hidden;
+      border: 1px solid #cbd5e1;
+    }
+    .phone-header {
+      background: #065f46;
+      color: white;
+      padding: 14px;
+    }
+    .phone-body {
+      padding: 14px;
+    }
+    .phone-gauge-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 12px 0;
+    }
+    .phone-gauge {
+      background: white;
+      border: 1px solid #e2e8f0;
+      padding: 12px;
+      border-radius: 10px;
+      text-align: center;
+    }
+    .phone-gauge-val {
+      font-size: 20px;
+      font-weight: 800;
+      font-family: monospace;
+      color: #065f46;
+    }
+    .phone-btn {
+      width: 100%;
+      padding: 10px;
+      background: #065f46;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 12px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .phone-btn:hover { background: #047857; }
+    
+    /* Crop Selector */
+    .crop-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 10px;
+      margin: 15px 0;
+    }
+    .crop-card {
+      padding: 12px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.15s ease;
+    }
+    .crop-card:hover { border-color: #059669; background: #ecfdf5; }
+    .crop-card.active { border-color: #059669; background: #d1fae5; font-weight: bold; }
+    
+    table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 13px; }
+    th, td { padding: 10px 14px; border-bottom: 1px solid var(--border); text-align: left; }
+    th { background: #f8fafc; font-weight: 600; color: #334155; }
+    tr:hover { background: #f8fafc; }
+    pre {
+      background: #0f172a;
+      color: #38bdf8;
+      padding: 16px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-family: Consolas, Monaco, monospace;
+      font-size: 12px;
+    }
+    .btn {
+      padding: 8px 16px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Header Navigation -->
+  <header>
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-icon">🌱</div>
+        <span>Solar Agricultural Water Pumping System</span>
+      </div>
+      <nav>
+        <button class="nav-btn active" onclick="switchTab('agro')">🌾 Kisan Agro App</button>
+        <button class="nav-btn" onclick="switchTab('step1')">Design & BOM</button>
+        <button class="nav-btn" onclick="switchTab('simulator')">Live Simulator</button>
+        <button class="nav-btn" onclick="switchTab('wiring')">Pin Wiring</button>
+        <button class="nav-btn" onclick="switchTab('diagram')">Block Diagram</button>
+        <button class="nav-btn" onclick="switchTab('code')">Firmware Code</button>
+        <button class="nav-btn" onclick="switchTab('viva')">Viva Q&A</button>
+      </nav>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <!-- TAB: KISAN AGRO MOBILE APP -->
+    <div id="tab-agro" class="tab-content active">
+      <div class="hero-banner">
+        <div>
+          <h1>🌾 Kisan Solar Agro-Smart Mobile Companion</h1>
+          <p>Real-time agricultural dashboard with crop-specific irrigation intelligence, root depth moisture monitoring, and remote farm pump control.</p>
+        </div>
+        <div class="hero-price">
+          <div style="font-size: 11px; color: #a7f3d0; font-weight: 600;">GROUNDWATER SAVED</div>
+          <div class="price-num">+48 Litres</div>
+          <div style="font-size: 12px; color: #a7f3d0;">52% vs Flood Irrigation</div>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1.6fr; gap:24px;">
+        <!-- Left: Phone Simulator -->
+        <div>
+          <div class="phone-container">
+            <div class="phone-frame">
+              <div class="phone-notch"></div>
+              <div class="phone-screen">
+                <div class="phone-header">
+                  <div style="display:flex; justify-content:space-between; font-size:11px; font-weight:bold;">
+                    <span>☀️ 4G AgriNet</span>
+                    <span>94% 🔋</span>
+                  </div>
+                  <h3 style="margin-top:6px; font-size:15px;" id="phone-crop-name">Tomato Plot #2 🍅</h3>
+                  <div style="font-size:10px; color:#a7f3d0;">Solar: 16.4W · 31°C Sunny</div>
+                </div>
+
+                <div class="phone-body">
+                  <div class="phone-gauge-grid">
+                    <div class="phone-gauge">
+                      <div style="font-size:10px; color:#64748b;">Soil Moisture</div>
+                      <div class="phone-gauge-val" id="phone-soil-val">28%</div>
+                      <div style="font-size:10px; color:#d97706; font-weight:bold;">⚠️ Soil is Dry</div>
+                    </div>
+                    <div class="phone-gauge">
+                      <div style="font-size:10px; color:#64748b;">Water Tank</div>
+                      <div class="phone-gauge-val" style="color:#0284c7;" id="phone-tank-val">82%</div>
+                      <div style="font-size:10px; color:#15803d; font-weight:bold;">✓ Ample Water</div>
+                    </div>
+                  </div>
+
+                  <div style="background:white; border:1px solid #e2e8f0; padding:12px; border-radius:10px; margin-bottom:10px;">
+                    <div style="display:flex; justify-content:space-between; font-size:12px; font-weight:bold;">
+                      <span>Submersible Pump:</span>
+                      <span style="color:#15803d;" id="phone-pump-text">RUNNING 💧</span>
+                    </div>
+                    <div style="font-size:11px; color:#64748b; margin-top:2px;">Targeted root drip active</div>
+                  </div>
+
+                  <button class="phone-btn" onclick="alert('Kisan Alert: SMS sent to registered farmer phone!')">
+                    Send Simulated Farmer SMS 📲
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Crop Selector & Agronomic Intelligence -->
+        <div>
+          <div class="card">
+            <h2 style="font-size:18px; margin-bottom:6px;">Select Farm Crop Intelligence:</h2>
+            <p style="font-size:13px; color:#64748b;">Each crop has specific irrigation rules. Click to apply calibrated moisture thresholds:</p>
+
+            <div class="crop-grid">
+              <div class="crop-card active" onclick="selectCrop('tomato', 'Tomato Plot #2 🍅', 35, 65, this)">
+                <div style="font-size:22px;">🍅</div>
+                <div style="font-size:12px; margin-top:4px;">Tomato</div>
+                <div style="font-size:10px; color:#64748b;">Dry &lt; 35%</div>
+              </div>
+              <div class="crop-card" onclick="selectCrop('wheat', 'Wheat Field #1 🌾', 30, 55, this)">
+                <div style="font-size:22px;">🌾</div>
+                <div style="font-size:12px; margin-top:4px;">Wheat</div>
+                <div style="font-size:10px; color:#64748b;">Dry &lt; 30%</div>
+              </div>
+              <div class="crop-card" onclick="selectCrop('rice', 'Rice / Paddy #4 🍚', 65, 85, this)">
+                <div style="font-size:22px;">🍚</div>
+                <div style="font-size:12px; margin-top:4px;">Rice / Paddy</div>
+                <div style="font-size:10px; color:#64748b;">Dry &lt; 65%</div>
+              </div>
+              <div class="crop-card" onclick="selectCrop('chilli', 'Chilli Garden 🌶️', 32, 60, this)">
+                <div style="font-size:22px;">🌶️</div>
+                <div style="font-size:12px; margin-top:4px;">Chilli</div>
+                <div style="font-size:10px; color:#64748b;">Dry &lt; 32%</div>
+              </div>
+              <div class="crop-card" onclick="selectCrop('corn', 'Maize / Corn 🌽', 40, 70, this)">
+                <div style="font-size:22px;">🌽</div>
+                <div style="font-size:12px; margin-top:4px;">Corn</div>
+                <div style="font-size:10px; color:#64748b;">Dry &lt; 40%</div>
+              </div>
+            </div>
+
+            <div style="background:#ecfdf5; border:1px solid #a7f3d0; padding:14px; border-radius:8px; margin-top:14px; font-size:13px; color:#065f46;">
+              <strong>Agronomic Water-Saving Rule:</strong> Precision drip irrigation places moisture directly into the root zone at low pressure, cutting evaporation and weed growth by over 50%.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: STEP 1 DESIGN -->
+    <div id="tab-step1" class="tab-content">
+      <div class="card">
+        <h2 style="font-size:18px; margin-bottom:10px;">Prototype Design & Indian BOM</h2>
+        <table>
+          <thead>
+            <tr><th>Component</th><th>Spec</th><th>Price (₹)</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Solar Panel</td><td>10W–20W Polycrystalline</td><td>₹650</td></tr>
+            <tr><td>Charge Controller</td><td>12V 10A PWM (LCD)</td><td>₹320</td></tr>
+            <tr><td>12V Battery</td><td>12V 7Ah SLA UPS Battery</td><td>₹650</td></tr>
+            <tr><td>Buck Converter</td><td>LM2596 (12V ➔ 5.0V)</td><td>₹75</td></tr>
+            <tr><td>Arduino Uno R3</td><td>ATmega328P + Cable</td><td>₹420</td></tr>
+            <tr><td>Soil Sensor</td><td>Capacitive v1.2</td><td>₹90</td></tr>
+            <tr><td>Water Sensor</td><td>HC-SR04 Ultrasonic</td><td>₹85</td></tr>
+            <tr><td>Relay Module</td><td>5V Optocoupled</td><td>₹65</td></tr>
+            <tr><td>12V Pump</td><td>12V Submersible DC</td><td>₹160</td></tr>
+            <tr><td>Drip Tubing</td><td>6mm PU (2m) + Drippers</td><td>₹120</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TAB: SIMULATOR -->
+    <div id="tab-simulator" class="tab-content">
+      <div class="card">
+        <h2 style="font-size:18px; margin-bottom:10px;">Live Circuit & Fluid Simulator</h2>
+        <div style="margin-bottom:15px;">
+          <label style="font-size:13px; font-weight:bold;">Soil Moisture: <span id="sim-soil-text">25% (Dry)</span></label>
+          <input type="range" min="5" max="95" value="25" style="width:100%; accent-color:#15803d;" oninput="document.getElementById('sim-soil-text').textContent = this.value + '%'; document.getElementById('phone-soil-val').textContent = this.value + '%';">
+        </div>
+        <div style="margin-bottom:15px;">
+          <label style="font-size:13px; font-weight:bold;">Tank Water Depth: <span id="sim-tank-text">80% (Safe)</span></label>
+          <input type="range" min="0" max="100" value="80" style="width:100%; accent-color:#0284c7;" oninput="document.getElementById('sim-tank-text').textContent = this.value + '%'; document.getElementById('phone-tank-val').textContent = this.value + '%';">
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: WIRING -->
+    <div id="tab-wiring" class="tab-content">
+      <div class="card">
+        <h2 style="font-size:18px; margin-bottom:10px;">Pin-to-Pin Circuit Connection Matrix</h2>
+        <table>
+          <thead><tr><th>Component Pin</th><th>Arduino Pin</th><th>Wire Color</th></tr></thead>
+          <tbody>
+            <tr><td>Capacitive Soil AOUT</td><td>Pin A0</td><td>Yellow</td></tr>
+            <tr><td>HC-SR04 TRIG / ECHO</td><td>Pin 9 / Pin 10</td><td>Green / Blue</td></tr>
+            <tr><td>5V Relay IN</td><td>Pin D7</td><td>Orange</td></tr>
+            <tr><td>Relay COM / NO</td><td>Battery (+) / Pump (+)</td><td>Thick Red</td></tr>
+            <tr><td>Pump (-)</td><td>Battery (-)</td><td>Thick Black</td></tr>
+            <tr><td>LM2596 OUT (+)</td><td>Arduino 5V Pin</td><td>Red (5.0V tuned)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TAB: DIAGRAM -->
+    <div id="tab-diagram" class="tab-content">
+      <div class="card">
+        <h2 style="font-size:18px; margin-bottom:10px;">Block Diagram</h2>
+        <pre>
+[ 10W-20W Solar Panel ] ➔ [ 12V 10A PWM Controller ] ➔ [ 12V 7Ah Battery ]
+                                    │
+                         ┌──────────┴──────────┐
+                         ▼                     ▼
+                [ LM2596 5V Buck ]    [ 5V Relay Module ]
+                         │                     │
+                         ▼                     ▼
+               [ Arduino Uno R3 ]     [ 12V DC Water Pump ]
+                 (Soil A0 / Dist)              │
+                         │                     ▼
+                         └───────────➔ [ Drip Crop Field ] ➔ [ Drain Return ]
+        </pre>
+      </div>
+    </div>
+
+    <!-- TAB: CODE -->
+    <div id="tab-code" class="tab-content">
+      <div class="card">
+        <h2 style="font-size:18px; margin-bottom:10px;">Arduino Firmware (C++)</h2>
+        <pre><code>/* PE100 – Solar Agricultural Water Pumping System */
+#include &lt;Wire.h&gt;
+#include &lt;LiquidCrystal_I2C.h&gt;
+
+const int SOIL_PIN = A0;
+const int TRIG_PIN = 9;
+const int ECHO_PIN = 10;
+const int RELAY_PIN = 7;
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(RELAY_PIN, OUTPUT);
+  digitalWrite(RELAY_PIN, HIGH); // OFF
+}
+
+void loop() {
+  int rawSoil = analogRead(SOIL_PIN);
+  int soilPercent = constrain(map(rawSoil, 800, 400, 0, 100), 0, 100);
+
+  if (soilPercent &lt; 35) {
+    digitalWrite(RELAY_PIN, LOW); // Turn ON pump
+  } else if (soilPercent &gt;= 65) {
+    digitalWrite(RELAY_PIN, HIGH); // Turn OFF pump
+  }
+  delay(600);
+}</code></pre>
+      </div>
+    </div>
+
+    <!-- TAB: VIVA -->
+    <div id="tab-viva" class="tab-content">
+      <div class="card">
+        <h2 style="font-size:18px; margin-bottom:10px;">Top Viva Voce Questions</h2>
+        <p><strong>Q1: Why use 12V DC instead of 230V AC?</strong><br><em>A: 12V DC is touch-safe (zero shock risk in lab) and eliminates the inverter that wastes 25% energy.</em></p><br>
+        <p><strong>Q2: What is Dry-Run Protection?</strong><br><em>A: Shuts pump OFF when water drops below 15% to prevent motor burnout.</em></p><br>
+        <p><strong>Q3: Why choose a Capacitive Soil Sensor?</strong><br><em>A: Has no exposed copper prongs so it doesn't corrode from electrolysis like resistive sensors.</em></p>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function switchTab(id) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+      const target = document.getElementById('tab-' + id);
+      if (target) target.classList.add('active');
+      const btns = document.querySelectorAll('.nav-btn');
+      btns.forEach(b => {
+        if (b.getAttribute('onclick').includes(id)) b.classList.add('active');
+      });
+    }
+
+    function selectCrop(cropId, name, dry, wet, el) {
+      document.querySelectorAll('.crop-card').forEach(c => c.classList.remove('active'));
+      el.classList.add('active');
+      document.getElementById('phone-crop-name').textContent = name;
+    }
+  </script>
+</body>
+</html>
